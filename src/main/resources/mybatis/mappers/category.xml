@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="category">
+	<insert id="insert" parameterType="categoryvo">
+		<![CDATA[
+		insert 
+		  into category
+		values ( null, #{name}, #{description}, now(), #{userNo})
+		]]>
+	</insert>
+
+	<select id="getListByNo" parameterType="long" resultType="categoryvo">
+		<![CDATA[
+			select no, name
+			  from category
+			 where user_no = #{userNo}
+		]]>
+	</select>
+
+	<select id="getLastInsert" resultType="categoryvo">
+		<![CDATA[
+			select no,
+				   name,
+				   description,
+				   reg_date as regDate,
+				   user_no as userNo
+			  from category
+			 where no = (select last_insert_id());
+		]]>
+	</select>
+
+	<select id="getList" resultType="categoryvo">
+		<![CDATA[
+			select a.*, 
+				   (select count(*) from post where category_no = a.no) as postAmount
+ 			  from category a
+		]]>			
+	</select>
+
+	<select id="getListById" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+			select a.no,
+				   a.name,
+				   a.description,
+				   a.reg_date as regDate,
+				   a.user_no as userNo,
+				   (select count(*) from post where category_no = a.no) as postAmount
+ 			  from category a
+ 			 where user_no = (select no from user where id = #{id}); 
+		]]>		
+	</select>
+
+	<delete id="deleteByNo" parameterType="long">
+		<![CDATA[
+			delete 
+			  from category 
+			 where no = #{no}
+		]]>
+	</delete>
+	
+	<select id="getNo" parameterType="string" resultType="Long">
+		<![CDATA[
+			select min(no) as no 
+			  from category 
+			 where user_no = (select no from user where id = #{id}) 
+		]]>		
+	</select>
+</mapper>
