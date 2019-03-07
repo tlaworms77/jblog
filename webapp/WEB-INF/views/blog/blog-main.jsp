@@ -8,10 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
 <Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
-<link rel="stylesheet"
-	href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link href='https://fonts.googleapis.com/css?family=Roboto'
-	rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <style type="text/css">
 html
 body {
@@ -77,6 +75,7 @@ li.selected {
 		            </c:if>
 				</ul>
 				<div class="container">
+					<h3>Comment</h3>
 					<form>
 						<div class="form-group">
 							<textarea class="form-control status-box" rows="2"
@@ -85,8 +84,8 @@ li.selected {
 					</form>
 					<div class="button-group pull-right">
 						<p class="counter">140</p>
-						<a href="#" class="btn btn-danger">Delete</a> <a href="#"
-							class="btn btn-primary">Post</a>
+						<a href="" class="btn btn-danger" style="display: none;">Delete</a>
+						<a href="" class="btn btn-primary">Post</a>
 					</div>
 				
 					<ul class="posts">
@@ -104,18 +103,54 @@ li.selected {
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
 			<c:param name="menu" value="main" />
 		</c:import>
-		
 		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript">
+	
+	var fetchList = function (){
+		$.ajax({
+			async: true,
+			url: "${pageContext.servletContext.contextPath }/{id}/api/list/${postVo.no}/",
+			type: "get",
+			dataType: "json",
+			data: "",
+			success: function(response){
+				// 값을 가져와서 현재 jsp에 배치
+				// rendering
+				$.each(response.data, function(index, vo){
+					$('<li>').text(vo.content + '  < ' + vo.regDate + ' >').prependTo('.posts');
+				});
+			
+			},
+			error: function(xhr, status, e){
+				console.log(status + " : " + e);
+			}
+		});
+	}
+	
 	var main = function() {
+		
+		fetchList();
+		
 		$('.btn-primary').click(function() {
 			var post = $('.status-box').val();
-			$('<li>').text(post).prependTo('.posts');
-			$('.status-box').val('');
-			$('.counter').text('140');
-			$('.btn-primary').addClass('disabled');
+			$.ajax({
+				async: true,
+				url: "${pageContext.servletContext.contextPath }/{id}/api/add/${postVo.no}/" + post,
+				type: "get",
+				dataType: "json",
+				data: "",
+				success: function(response){
+					$('<li>').text(response.data.content + '  < ' + vo.regDate + ' >').prependTo('.posts');
+					$('.status-box').val('');
+					$('.counter').text('140');
+					$('.btn-primary').addClass('disabled');
+				},
+				error: function(xhr, status, e){
+					console.log(status + " : " + e);
+				}
+			});
 		});
 
 		$('.posts li').on('click', function() {
@@ -141,7 +176,7 @@ li.selected {
 		});
 		$('.btn').addClass('disabled');
 	};
-
+	
 	$(document).ready(main);
 </script>
 </body>
