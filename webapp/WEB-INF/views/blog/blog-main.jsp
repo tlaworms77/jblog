@@ -142,15 +142,14 @@ li.selected {
 	fetchList();
 	
 	var main = function() {
-		
-		
-		
+	
 		// comment 추가부분
 		$('.btn-primary').click(function(event) {
 			event.preventDefault();
 			var post = $('.status-box').val();
+			
   			post = post.split('\n').join("<br>");
-
+			
 // 			alert(post);
 			$.ajax({
 				async: true,
