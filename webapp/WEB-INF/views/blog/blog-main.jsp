@@ -55,6 +55,8 @@ li.selected {
   background-color: red;
 }
 </style>
+<script type="text/javascript">
+</script>
 </head>
 <body>
 	<div id="container">
@@ -64,12 +66,12 @@ li.selected {
 				<div class="blog-content">
 					<h4>${postVo.title }</h4>
 					<p>
-						${postVo.content }
+					${postVo.content }
 					<p>
 				</div>
 				<ul class="blog-list">
 					<c:if test="${!empty postlist }">
-			            <c:forEach items="${postlist }" var="post"><!-- 2015/05/02 -->
+			            <c:forEach items="${postlist }" var="post">
 			               <li><a href="${pageContext.servletContext.contextPath}/${id}/${post.categoryNo}/${post.no}">${post.title }</a> <span>${post.regDate }</span>   </li>
 			            </c:forEach>
 		            </c:if>
@@ -107,8 +109,12 @@ li.selected {
 	</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript">
-	
+// 	var regex = /<br\s*[\/]?>/gi;
+	var isEnd = false;
 	var fetchList = function (){
+		if(isEnd){
+			return;
+		}
 		$.ajax({
 			async: true,
 			url: "${pageContext.servletContext.contextPath }/{id}/api/list/${postVo.no}/",
@@ -119,7 +125,10 @@ li.selected {
 				// 값을 가져와서 현재 jsp에 배치
 				// rendering
 				$.each(response.data, function(index, vo){
-					$('<li>').text(vo.content + '  < ' + vo.regDate + ' >').prependTo('.posts');
+					var text = vo.content;
+					var result = text.split('\r\n').join('<br>');
+// 					console.log(result);
+					$('<li>').html(result + '  < ' + vo.regDate + ' >').prependTo('.posts');
 				});
 			
 			},
@@ -127,14 +136,22 @@ li.selected {
 				console.log(status + " : " + e);
 			}
 		});
+		isEnd = true;
 	}
+	
+	fetchList();
 	
 	var main = function() {
 		
-		fetchList();
 		
-		$('.btn-primary').click(function() {
+		
+		// comment 추가부분
+		$('.btn-primary').click(function(event) {
+			event.preventDefault();
 			var post = $('.status-box').val();
+  			post = post.split('\n').join("<br>");
+
+// 			alert(post);
 			$.ajax({
 				async: true,
 				url: "${pageContext.servletContext.contextPath }/{id}/api/add/${postVo.no}/" + post,
@@ -142,10 +159,11 @@ li.selected {
 				dataType: "json",
 				data: "",
 				success: function(response){
-					$('<li>').text(response.data.content + '  < ' + vo.regDate + ' >').prependTo('.posts');
+					$('<li>').html(post).prependTo('.posts');
 					$('.status-box').val('');
 					$('.counter').text('140');
 					$('.btn-primary').addClass('disabled');
+// 					alert(response.data);
 				},
 				error: function(xhr, status, e){
 					console.log(status + " : " + e);

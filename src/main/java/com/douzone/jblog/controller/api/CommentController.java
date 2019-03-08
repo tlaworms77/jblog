@@ -23,7 +23,8 @@ public class CommentController {
 	@RequestMapping("/add/{postNo}/{content}")
 	public JSONResult addComment(
 		CommentVo commentVo) {
-
+		
+//		commentVo.setContent(commentVo.getContent().replaceAll("\n", "<br />"));
 		boolean result = commentService.addComment(commentVo);
 		System.out.println("Insert Comment result : " + result);
 		
@@ -37,6 +38,8 @@ public class CommentController {
 		@PathVariable long postNo) {
 		System.out.println("Comment List by postNo : " + postNo);
 		List<CommentVo> list = commentService.getList(postNo);
+		
+		System.out.println(list);
 		
 		return JSONResult.success(list);
 	}
