@@ -110,15 +110,15 @@ window.addEventListener( "load", function(){
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<form class="join-form" id="join-form" method="post" action="">
 			<label class="block-label" for="name">이름</label>
-			<input id="name" name="name" type="text" value="">
+			<input type="text" id="name" name="name" value="">
 			
 			<label class="block-label" for="blog-id">아이디</label>
-			<input id="blog-id" name="id" type="text"> 
+			<input type="text" id="blog-id" name="id"> 
 			<input id="btn-checkId" type="button" value="id 중복체크">
 			<img id="img-checkId" style="display: none;" src="${pageContext.request.contextPath}/assets/images/check.png">
 			
 			<label class="block-label" for="password">패스워드</label>
-			<input id="password" name="password" type="password" />
+			<input type="password" id="password" name="password" />
 
 			<fieldset>
 				<legend>약관동의</legend>
