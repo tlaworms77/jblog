@@ -11,9 +11,12 @@
 <script src="${pageContext.servletContext.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script type="text/javascript">
 window.addEventListener( "load", function(){
-
+	
 	document.getElementById( "join-form" ).
 	onsubmit = function(){
+		
+		var alphaDigit= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+		
 		//1. 이름
 		var inputName = document.getElementById( "name" );
 		if( inputName.value === "" ) {
@@ -30,6 +33,26 @@ window.addEventListener( "load", function(){
 			return false;
 		}
 		
+		if (inputId.value.length < 4 || inputId.value.length > 15){
+		    alert("아이디는 4~15자 이내여야 합니다.");
+		    inputId.focus();
+		    return false;
+		}
+		
+	    if (inputId.value.indexOf(" ") >= 0) {
+		    alert("아이디에는 공백이 들어가면 안됩니다.");
+		    inputId.focus();
+		    return false;
+	    }
+	    
+	    for (i=0; i<inputId.value.length; i++) {
+	      if (alphaDigit.indexOf(inputId.value.substring(i, i+1)) == -1) {
+		      alert("ID는 영문과 숫자의 조합만 사용할 수 있습니다.");
+		      inputId.focus();
+		      return false;
+	      }
+	    }
+		
 		//3. 아이디 중복 체크 여부
 		var imageCheck = document.getElementById( "img-checkId" );
 		if( imageCheck.style.display === "none" ) {
@@ -44,7 +67,13 @@ window.addEventListener( "load", function(){
 			inputPassword.focus();
 			return false;
 		}
-		
+		if (inputPassword.value.length < 4) {
+		    alert("비밀번호는 4자리 이상 입력하셔야 합니다.");
+		    inputPassword.value="";
+		    inputPassword.focus();
+		    return false;
+		}
+
 		//5. 약관동의
 		var checkAgree = document.getElementById( "agree-prov" );
 		if( checkAgree.checked === false ) {
