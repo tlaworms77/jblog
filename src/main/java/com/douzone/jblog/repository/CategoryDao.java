@@ -26,12 +26,12 @@ public class CategoryDao {
 		return sqlSession.selectOne("category.getLastInsert");
 	}
 
-	public List<CategoryVo> getList() {
-		return sqlSession.selectList("category.getList");
+	public List<CategoryVo> getList(String id) {
+		return sqlSession.selectList("category.getList", id);
 	}
 
-	public int deleteByNo(long no) {
-		return sqlSession.delete("category.deleteByNo", no);
+	public int deleteByNo(long categoryNo) {
+		return sqlSession.delete("category.deleteByNo", categoryNo);
 	}
 
 	public List<CategoryVo> getListById(String id) {
@@ -40,5 +40,17 @@ public class CategoryDao {
 
 	public Long getNoById(String id) {
 		return sqlSession.selectOne("category.getNo", id);
+	}
+
+	public int defaultCategory(long userNo) {
+		return sqlSession.insert("category.insertDefault", userNo);
+	}
+
+	public long getInsertLastNo() {
+		return sqlSession.selectOne("category.getLastNo");
+	}
+
+	public int getRowCount(String id) {
+		return sqlSession.selectOne("category.getRowCountByNo", id);
 	}
 }

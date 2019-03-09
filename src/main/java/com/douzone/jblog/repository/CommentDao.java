@@ -14,7 +14,7 @@ public class CommentDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public List<CommentVo> getList(long postNo) {
+	public List<CommentVo> getList(Long postNo) {
 		return sqlSession.selectList("comment.getList", postNo);
 	}
 

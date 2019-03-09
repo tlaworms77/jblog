@@ -30,8 +30,8 @@ public class BlogController {
 		@PathVariable Optional<Long> postPath,
 		ModelMap modelMap) {
 		
-		long categoryNo = (categoryPath.isPresent() ? categoryPath.get() : categoryService.getBasicNo(id));
-		long postNo = (postPath.isPresent() ? postPath.get() : postService.getBasicNo(categoryNo));
+		Long categoryNo = categoryPath.isPresent() ? categoryPath.get() : categoryService.getBasicNo(id);
+		Long postNo = postPath.isPresent() ? postPath.get() : postService.getBasicNo(categoryNo);
 		
 		System.out.println("categoryNo : " + categoryNo);
 		System.out.println("postNo : " + postNo);

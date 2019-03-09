@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.douzone.jblog.repository.BlogDao;
+import com.douzone.jblog.repository.CategoryDao;
+import com.douzone.jblog.repository.PostDao;
 import com.douzone.jblog.repository.UserDao;
 import com.douzone.jblog.vo.UserVo;
 
@@ -14,6 +16,10 @@ public class UserService {
 	private UserDao userDao;
 	@Autowired
 	private BlogDao blogDao;
+	@Autowired
+	private CategoryDao categoryDao;
+	@Autowired
+	private PostDao postDao;
 	
 	public void join(UserVo userVo) {
 		
@@ -23,7 +29,16 @@ public class UserService {
 			System.out.println("UserService's insert user/Blog Method result : " + result);
 			return;
 		}
-		System.out.println("Join Success! user&blog <default>");
+		result = 1 == categoryDao.defaultCategory(userNo);
+		if(result == false) {
+			System.out.println("UserService's insert default-Category result : " + result);
+			return;
+		}
+		long categoryNo = categoryDao.getInsertLastNo();
+		
+		result = 1 == postDao.defaultPost(categoryNo);
+		
+		System.out.println("Join Success! user&blog&category&post <default>");
 		
 		
 	}

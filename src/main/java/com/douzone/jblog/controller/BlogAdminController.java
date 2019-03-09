@@ -41,9 +41,9 @@ public class BlogAdminController {
 	public String basic(
 		@AuthUser UserVo userVo, 
 		Model model) {
-		System.out.println("1111");
+
 		model.addAttribute("blogVo", blogService.getBlogInfo(userVo.getNo()));
-		System.out.println("2222");
+
 		return "blog/blog-admin-basic";
 	}
 	

@@ -36,18 +36,38 @@ public class CategoryController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public JSONResult list() {
-		List<CategoryVo> list = categoryService.getList();
+	@RequestMapping(value="/list/{id}", method=RequestMethod.GET)
+	public JSONResult list(
+		@PathVariable String id ) {
+		System.out.println("categorylist");
+		List<CategoryVo> list = categoryService.getList(id);
 		System.out.println(list);
 		return JSONResult.success(list);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
-	public JSONResult delete(@PathVariable long no) {
-		System.out.println("no : " + no);
-		boolean result = categoryService.deleteRow(no);
+	@RequestMapping(value="/delete/{id}/{categoryNo}", method=RequestMethod.GET)
+	public JSONResult delete(
+		@PathVariable String id,
+		@PathVariable long categoryNo) {
+		System.out.println("id : " + id);
+		boolean deleteIsPossible = categoryService.getRowCount(id);
+		System.out.println("11111");
+		if(!deleteIsPossible) {
+			System.out.println("카테고리는 최소한 한개 이상 존재해야한다. fail");
+			return JSONResult.success("fail");
+		}
+		System.out.println("22222");
+		boolean childIsTrue = categoryService.getCategoryIsChild(categoryNo);
+		System.out.println("33333");
+		if(childIsTrue) {
+			System.out.println("해당 카테고리에 포스트가 하나이상 존재하여 해당 카테고리를 삭제할 수 없습니다.  ischild");
+			return JSONResult.success("ischild");
+		}
+		
+		System.out.println("형이 여기왜있어....");
+		
+		boolean result = categoryService.deleteRow(categoryNo);
 		System.out.println("category delete result : " + result);
 		return JSONResult.success(result);
 	}

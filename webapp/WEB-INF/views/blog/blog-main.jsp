@@ -112,12 +112,18 @@ li.selected {
 // 	var regex = /<br\s*[\/]?>/gi;
 	var isEnd = false;
 	var fetchList = function (){
+		
+		if("${postVo.no}" == "") {
+			console.log("post가 비었습니다.");
+			return;
+		}
+		
 		if(isEnd){
 			return;
 		}
 		$.ajax({
 			async: true,
-			url: "${pageContext.servletContext.contextPath }/{id}/api/list/${postVo.no}/",
+			url: "${pageContext.servletContext.contextPath }/{id}/api/list/${postVo.no}",
 			type: "get",
 			dataType: "json",
 			data: "",
@@ -148,12 +154,15 @@ li.selected {
 			event.preventDefault();
 			var post = $('.status-box').val();
 			
-  			post = post.split('\n').join("<br>");
+			if("${postVo.no}" == "") {
+				console.log("post가 비었습니다.");
+				return;
+			}
 			
 // 			alert(post);
 			$.ajax({
 				async: true,
-				url: "${pageContext.servletContext.contextPath }/{id}/api/add/${postVo.no}/" + post,
+				url: "${pageContext.servletContext.contextPath }/${id}/api/add/${postVo.no}/" + post,
 				type: "get",
 				dataType: "json",
 				data: "",

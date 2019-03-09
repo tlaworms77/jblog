@@ -4,11 +4,25 @@
 <mapper namespace="category">
 	<insert id="insert" parameterType="categoryvo">
 		<![CDATA[
-		insert 
-		  into category
-		values ( null, #{name}, #{description}, now(), #{userNo})
+			insert 
+			  into category
+			values ( null, #{name}, #{description}, now(), #{userNo})
+		]]>	
+	</insert>
+
+	<insert id="insertDefault" parameterType="long">
+		<![CDATA[
+			insert 
+			  into category
+			values ( null, 'DefaultCategory', 'DefaultDescription', now(), #{usrNo})
 		]]>
 	</insert>
+
+	<select id="getLastNo" resultType="long">
+	<![CDATA[
+		select last_insert_id()
+	]]>
+	</select>
 
 	<select id="getListByNo" parameterType="long" resultType="categoryvo">
 		<![CDATA[
@@ -30,11 +44,12 @@
 		]]>
 	</select>
 
-	<select id="getList" resultType="categoryvo">
+	<select id="getList" parameterType="string" resultType="categoryvo">
 		<![CDATA[
 			select a.*, 
 				   (select count(*) from post where category_no = a.no) as postAmount
  			  from category a
+ 			 where user_no = (select a.no from user a where a.id = #{id})
 		]]>			
 	</select>
 
@@ -55,7 +70,7 @@
 		<![CDATA[
 			delete 
 			  from category 
-			 where no = #{no}
+			 where no = #{categoryNo}
 		]]>
 	</delete>
 	
@@ -63,7 +78,15 @@
 		<![CDATA[
 			select min(no) as no 
 			  from category 
-			 where user_no = (select no from user where id = #{id}) 
-		]]>		
+			 where user_no = (select no from user where id = #{id})
+		]]>
+	</select>
+	
+	<select id="getRowCountByNo" parameterType="string" resultType="int">
+		<![CDATA[
+			select count(*) as count 
+			  from category 
+			 where user_no = (select no from user where id = #{id})
+		]]>
 	</select>
 </mapper>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.douzone.jblog.repository.CategoryDao;
+import com.douzone.jblog.repository.PostDao;
 import com.douzone.jblog.vo.CategoryVo;
 
 @Service
@@ -13,6 +14,8 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryDao categoryDao;
+	@Autowired
+	private PostDao postDao;
 
 	public void add(CategoryVo categoryVo) {
 		boolean result = 1 == categoryDao.addCategory(categoryVo);
@@ -29,12 +32,12 @@ public class CategoryService {
 		return categoryDao.getLastInsert();
 	}
 
-	public List<CategoryVo> getList() {
-		return categoryDao.getList();
+	public List<CategoryVo> getList(String id) {
+		return categoryDao.getList(id);
 	}
 
-	public boolean deleteRow(long no) {
-		return categoryDao.deleteByNo(no) == 1;
+	public boolean deleteRow(long categoryNo) {
+		return categoryDao.deleteByNo(categoryNo) == 1;
 	}
 
 	public List<CategoryVo> getListById(String id) {
@@ -43,6 +46,14 @@ public class CategoryService {
 
 	public Long getBasicNo(String id) {
 		return categoryDao.getNoById(id);
+	}
+
+	public boolean getRowCount(String id) {
+		return (categoryDao.getRowCount(id)<=1) ? false : true;
+	}
+
+	public boolean getCategoryIsChild(long categoryNo) {
+		return (postDao.getChildCount(categoryNo) > 0) ? true : false;
 	}
 
 }

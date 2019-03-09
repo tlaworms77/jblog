@@ -9,6 +9,13 @@
 			values ( null, #{title}, #{content}, now(), #{categoryNo})
 		]]>
 	</insert>
+	<insert id="insertDefault" parameterType="long">
+		<![CDATA[
+			insert 
+			  into post
+			values ( null, 'DefaultTitle', 'DefaultContent', now(), #{categoryNo})
+		]]>
+	</insert>
 	<select id="getAmountByCategoryNo" parameterType="long" resultType="int">
 		<![CDATA[
 			select count(*) as postAmount
@@ -50,5 +57,11 @@
 		     limit 1
 		]]>	
 	</select>
-	
+	<select id="getChildCount" parameterType="long" resultType="int">
+		<![CDATA[
+			select count(*)
+			  from post 
+			 where category_no = #{categoryNo}
+		]]>
+	</select>
 </mapper>

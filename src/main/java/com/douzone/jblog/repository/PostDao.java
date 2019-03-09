@@ -1,9 +1,6 @@
 package com.douzone.jblog.repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +43,14 @@ public class PostDao {
 
 	public PostVo getPost(Long postNo) {
 		return sqlSession.selectOne("post.getPost", postNo);
+	}
+
+	public int defaultPost(long categoryNo) {
+		return sqlSession.insert("post.insertDefault", categoryNo);
+	}
+
+	public int getChildCount(long categoryNo) {
+		return sqlSession.selectOne("post.getChildCount", categoryNo);
 	}
 	
 }

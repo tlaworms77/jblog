@@ -14,7 +14,7 @@ public class CommentService {
 	@Autowired
 	private CommentDao commentDao;
 	
-	public List<CommentVo> getList(long postNo) {
+	public List<CommentVo> getList(Long postNo) {
 		return commentDao.getList(postNo);
 	}
 

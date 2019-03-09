@@ -13,14 +13,23 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script type="text/javascript">
 
-var removeRow = function(rowNo){
+var removeRow = function(rowNo, $target){
 	$.ajax({
 		async: true,
-		url: "${pageContext.servletContext.contextPath }/category/api/delete/" + rowNo,
+		url: "${pageContext.servletContext.contextPath }/category/api/delete/${authuser.id}/" + rowNo,
 		type: "get",
 		dataType: "json",
 		data: "",
 		success: function(response){
+			if(response.data == 'fail'){
+				alert("카테고리목록은 반드시 한개 이상 존재하여야 합니다.")
+				return;
+			}
+			if(response.data == 'ischild'){
+				alert("해당 카테고리에 포스트가 존재하여 지우실 수 없습니다.")
+				return;
+			}
+			$target.remove();
 		},
 		error: function(xhr, status, e){
 			console.log(status + " : " + e);
@@ -42,8 +51,8 @@ var render = function(vo, mode){
 						 .on("click", function(e){
 							let $parentTr = $(e.target).closest("tr");
 							let rowNo = $parentTr.attr("no");
-							removeRow(rowNo);
-							$parentTr.remove();
+							removeRow(rowNo, $parentTr);
+// 							$parentTr.remove();
 						 })));
 	
 	if(mode){
@@ -57,9 +66,15 @@ var render = function(vo, mode){
 
 // 최초 리스트
 var fetchList = function (){
+	
+	if("${authuser.id}" == "") {
+		console.log("id가 비었습니다.");
+		return;
+	}
+	
 	$.ajax({
 		async: true,
-		url: "${pageContext.servletContext.contextPath }/category/api/list",
+		url: "${pageContext.servletContext.contextPath }/category/api/list/${authuser.id}",
 		type: "get",
 		dataType: "json",
 		data: "",
@@ -82,6 +97,11 @@ $(function(){
 	$("#add-form").submit(function(event){
 		// submit의 기본 동작(POST) -> 막아야한다.
 		event.preventDefault();
+		
+		if("${authuser.id}" == "") {
+			console.log("id가 비었습니다.");
+			return;
+		}
 		
 		//validate form data
 		var name = $("#input-name").val();	
@@ -109,7 +129,7 @@ $(function(){
 			data: "",
 			success: function(response){
 				// 값을 가져와서 현재 jsp에 배치
-				render(response.data, false);
+				render(response.data, true);
 				
 			},
 			error: function(xhr, status, e){
