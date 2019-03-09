@@ -6,20 +6,18 @@
 <div>
 	<ul class="menu">
 		<c:choose>
-			<c:when test="${ empty authuser }">
+			<c:when test="${ empty authuser or param.menu == 'login'}">
 				<li><a href="${pageContext.request.contextPath}/user/login">로그인</a></li>
 				<li><a href="${pageContext.request.contextPath}/user/join">회원가입</a></li>
+			</c:when>
+			<c:when test="${ empty authuser or param.menu == 'join'}">
+				<li><a href="${pageContext.request.contextPath}/user/login">로그인</a></li>
 			</c:when>
 			<c:otherwise>
 				<li>${ authuser.name }님 안녕하세요 ^^;</li>
 				<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>
 				<li><a href="${pageContext.request.contextPath}/${authuser.id}">내블로그</a></li>
 			</c:otherwise>
-<%-- 			<c:otherwise> --%>
-<%-- 				<li>${ param.menu=="joinsuccess" }님 안녕하세요 ^^;</li> --%>
-<%-- 				<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li> --%>
-<%-- 				<li><a href="${pageContext.request.contextPath}/user/${authuser.id}">내블로그</a></li> --%>
-<%-- 			</c:otherwise> --%>
 		</c:choose>
 	</ul>
 </div>

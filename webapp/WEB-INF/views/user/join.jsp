@@ -136,7 +136,9 @@ window.addEventListener( "load", function(){
 <body>
 	<div class="center-content">
 		<h1 class="logo">JBlog</h1>
-		<c:import url="/WEB-INF/views/includes/header.jsp" />
+		<c:import url="/WEB-INF/views/includes/header.jsp" >
+			<c:param name="menu" value="join" />
+		</c:import>
 		<form class="join-form" id="join-form" method="post" action="">
 			<label class="block-label" for="name">이름</label>
 			<input type="text" id="name" name="name" value="" placeholder="이름을 입력해수세요">

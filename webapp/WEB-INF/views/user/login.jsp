@@ -32,10 +32,12 @@ window.addEventListener( "load", function(){
 <body>
 	<div class="center-content">
 		<h1 class="logo">JBlog</h1>
-		<c:import url="/WEB-INF/views/includes/header.jsp" />
+		<c:import url="/WEB-INF/views/includes/header.jsp" >
+			<c:param name="menu" value="login" />
+		</c:import>
 		<form class="login-form" method="post" action="${pageContext.request.contextPath }/user/auth">
-      		<label>아이디</label> <input type="text" id="blog-id" name="id" placeholder="input id">
-      		<label>패스워드</label> <input type="password" id="password" name="password" placeholder="input password">
+      		<label>아이디</label> <input type="text" id="blog-id" name="id" placeholder="input id : (4~15)">
+      		<label>패스워드</label> <input type="password" id="password" name="password" placeholder="input password : (4~)">
       		<c:if test='${result == "fail" or param.result == "fail" }'>
 				<p style="color: red;">
 					로그인이 실패 했습니다.
