@@ -28,7 +28,7 @@ window.addEventListener( "load", function(){
 		//2. 아이디
 		var inputId = document.getElementById( "blog-id" );
 		if( inputId.value === "" ) {
-			alert( "이메일은 필수 항목입니다." );
+			alert( "아이디는 필수 항목입니다." );
 			inputId.focus();
 			return false;
 		}
