@@ -47,7 +47,7 @@ window.addEventListener( "load", function(){
 	    
 	    for (i=0; i<inputId.value.length; i++) {
 	      if (alphaDigit.indexOf(inputId.value.substring(i, i+1)) == -1) {
-		      alert("ID는 영문과 숫자의 조합만 사용할 수 있습니다.");
+		      alert("아이디는 영문과 숫자의 조합만 사용할 수 있습니다.");
 		      inputId.focus();
 		      return false;
 	      }
@@ -56,7 +56,7 @@ window.addEventListener( "load", function(){
 		//3. 아이디 중복 체크 여부
 		var imageCheck = document.getElementById( "img-checkId" );
 		if( imageCheck.style.display === "none" ) {
-			alert( "이메일 중복 체크를 해 주세요." );
+			alert( "아이디 중복 체크를 해 주세요." );
 			return false;
 		}
 		
