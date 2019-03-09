@@ -142,12 +142,12 @@ window.addEventListener( "load", function(){
 			<input type="text" id="name" name="name" value="" placeholder="이름을 입력해수세요">
 			
 			<label class="block-label" for="blog-id">아이디</label>
-			<input type="text" id="blog-id" name="id" placeholder="4~15자리 입력해주세요"> 
+			<input type="text" id="blog-id" name="id" placeholder="input id : (4~15)"> 
 			<input id="btn-checkId" type="button" value="id 중복체크">
 			<img id="img-checkId" style="display: none;" src="${pageContext.request.contextPath}/assets/images/check.png">
 			
 			<label class="block-label" for="password">패스워드</label>
-			<input type="password" id="password" name="password" placeholder="4자리 이상 입력해주세요"/>
+			<input type="password" id="password" name="password" placeholder="input password : (4~)"/>
 
 			<fieldset>
 				<legend>약관동의</legend>
