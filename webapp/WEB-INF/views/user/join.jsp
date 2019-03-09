@@ -139,15 +139,15 @@ window.addEventListener( "load", function(){
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<form class="join-form" id="join-form" method="post" action="">
 			<label class="block-label" for="name">이름</label>
-			<input type="text" id="name" name="name" value="">
+			<input type="text" id="name" name="name" value="" placeholder="이름을 입력해수세요">
 			
 			<label class="block-label" for="blog-id">아이디</label>
-			<input type="text" id="blog-id" name="id"> 
+			<input type="text" id="blog-id" name="id" placeholder="4~15자리 입력해주세요"> 
 			<input id="btn-checkId" type="button" value="id 중복체크">
 			<img id="img-checkId" style="display: none;" src="${pageContext.request.contextPath}/assets/images/check.png">
 			
 			<label class="block-label" for="password">패스워드</label>
-			<input type="password" id="password" name="password" />
+			<input type="password" id="password" name="password" placeholder="4자리 이상 입력해주세요"/>
 
 			<fieldset>
 				<legend>약관동의</legend>
